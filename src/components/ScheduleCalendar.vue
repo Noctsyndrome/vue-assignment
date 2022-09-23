@@ -52,9 +52,7 @@ export default {
     }
   },
   watch: {
-    treeData() {
-      
-    }
+
   },
   mounted() {
     this.$nextTick(() => {
