@@ -57,14 +57,27 @@ export default {
     }
   },
   mounted() {
-
+    this.$nextTick(() => {
+      let treeNode = document.querySelector('.el-tree-node__content')
+      if (treeNode) treeNode.click()
+    })
   },
   methods: {
     handleStaffChange(data) {
       // console.log(data)
-      if(!data.isStaff) return
-      this.currentStaff = {...data}
-      this.showCurrentStaffInfo()
+      if(!this.currentStaff && data.isGroup){
+        // init group select
+        this.$refs.orgTree.setCurrentKey(data.staffList[0].id)
+        this.currentStaff = {...data.staffList[0]}
+        this.showCurrentStaffInfo()
+      } else if (this.currentStaff && data.isGroup) {
+        // group select 
+        this.$refs.orgTree.setCurrentKey(this.currentStaff.id)
+      } else {
+        // item select
+        this.currentStaff = {...data}
+        this.showCurrentStaffInfo()
+      }
     },
     async showCurrentStaffInfo() {
       console.log('fetch staff info', this.currentStaff.id)
